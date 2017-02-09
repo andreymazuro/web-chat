@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head><title>Hello world</title>
+      <link rel="stylesheet" href="app.css">
+  </head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+        function setUsername(){
+            socket.emit('setUsername', document.getElementById('name').value);
+        };
+        var user;
+        var users = []
+        socket.on('userExists', function(data){
+            document.getElementById('error-container').innerHTML = data;
+        });
+        socket.on('welcome', function(data){
+          document.getElementById('users-list').innerHTML += '<li><b>' + data + '</b></li>'
+        });
+        socket.on('userSet', function(data){
+            user = data.username;
+            document.body.innerHTML = '<h3 id="user-name"></h3>\
+            <input onKeyDown="if(event.keyCode==13) sendMessage();"  type="text" id="message">\
+            <button type="button" name="button" id="send-button" onclick="sendMessage()">Send</button>\
+            <div id="message-container"></div>\
+            <h4 id="users-list-name">Users list:</h4>\
+            <ul id="users-list"></ul>'
+            ;
+            document.getElementById('user-name').innerHTML = 'Welcome, ' + user
+        });
+
+        socket.on('usersList', function(data){
+          document.getElementById('users-list').innerHTML = ''
+            data.users.map(function(usr) {
+            document.getElementById('users-list').innerHTML += '<li><b>' + usr + '</b></li>'
+          })
+        })
+
+        function sendMessage(){
+            var msg = document.getElementById('message').value;
+            if(msg){
+                socket.emit('msg', {message: msg, user: user});
+                document.getElementById('message').value = ''
+            }
+        }
+        socket.on('newmsg', function(data){
+            if(user){
+                document.getElementById('message-container').innerHTML += '<div><b>' + data.user + '</b>: ' + data.message + '</div>'
+            }
+        })
+    </script>
+    <body>
+        <h1>Write your name to enter chat</h1>
+        <div id="error-container"></div>
+        <input onKeyDown="if(event.keyCode==13) setUsername();" id="name" type="text" name="name" value=""  placeholder="Enter your name!"/>
+        <button type="button" name="button" onclick="setUsername()" class="main-button">Let me chat!</button>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+body{
+  background-color: #50d07d;
+}
+
+.main-button {
+  position: absolute;
+  top: 54%;
+  left: 50%;
+}
+
+#name {
+  position: absolute;
+  top: 49%;
+  left: 45.5%;
+  width: 16%;
+  height: 3%;
+}
+
+#users-list {
+  position: absolute;
+  left:90%;
+  top:5%;
+}
+
+#send-button {
+  position: absolute;
+  left:4%;
+  top:90%;
+  background: #016ABC;
+  color: #fff;
+  border: 1px solid #eee;
+  border-radius: 20px;
+}
+
+#users-list-name {
+  position: absolute;
+  left:90%;
+  top:0%;
+}
+
+#message {
+  position: absolute;
+  left:10%;
+  top:90%;
+  width: 80%;
+  height:20px;
+}
