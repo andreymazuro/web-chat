@@ -19,14 +19,17 @@
         });
         socket.on('userSet', function(data){
             user = data.username;
-            document.body.innerHTML = '<h3 id="user-name"></h3>\
+            document.body.innerHTML = '<h5 id="user-name"></h5>\
+            <div id="message-container"></div>\
+            <div class="bottom">\
             <input onKeyDown="if(event.keyCode==13) sendMessage();"  type="text" id="message">\
             <button type="button" name="button" id="send-button" onclick="sendMessage()">Send</button>\
-            <div id="message-container"></div>\
-            <h4 id="users-list-name">Users list:</h4>\
+            </div>\
+            <h6 id="users-list-name">Users list:</h6>\
             <ul id="users-list"></ul>'
             ;
             document.getElementById('user-name').innerHTML = 'Welcome, ' + user
+            document.getElementById("message").focus();
         });
 
         socket.on('usersList', function(data){
@@ -46,11 +49,13 @@
         socket.on('newmsg', function(data){
             if(user){
                 document.getElementById('message-container').innerHTML += '<div><b>' + data.user + '</b>: ' + data.message + '</div>'
+                var objDiv = document.getElementById("message-container");
+                objDiv.scrollTop = objDiv.scrollHeight;
             }
         })
     </script>
     <body>
-        <h1>Write your name to enter chat</h1>
+        <h4>Write your name to enter chat</h4>
         <div id="error-container"></div>
         <input onKeyDown="if(event.keyCode==13) setUsername();" id="name" type="text" name="name" value=""  placeholder="Enter your name!"/>
         <button type="button" name="button" onclick="setUsername()" class="main-button">Let me chat!</button>
