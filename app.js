@@ -9,6 +9,7 @@ app.get('/', function(req, res){
 
 app.use(express.static('assets'))
 
+
 users = [];
 io.on('connection', function(socket){
 
@@ -43,7 +44,7 @@ io.on('connection', function(socket){
   });
 
 });
-
-http.listen(3000, function(){
+var port = process.env.PORT || 3000;
+http.listen(port, function(){
   console.log('listening on localhost:3000');
 });
