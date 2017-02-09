@@ -48,7 +48,8 @@
         }
         socket.on('newmsg', function(data){
             if(user){
-                document.getElementById('message-container').innerHTML += '<div><b>' + data.user + '</b>: ' + data.message + '</div>'
+              var d = new Date();
+                document.getElementById('message-container').innerHTML += '<div><b>' + data.user +  '<a>(' + d.toLocaleTimeString() + ')</a></b>: ' + data.message + '</div>'
                 var objDiv = document.getElementById("message-container");
                 objDiv.scrollTop = objDiv.scrollHeight;
             }

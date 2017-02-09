@@ -14,8 +14,8 @@ users = [];
 io.on('connection', function(socket){
 
     socket.on('setUsername', function(data){
-    if(users.indexOf(data) > -1){
-      socket.emit('userExists', data + ' username is taken! Try some other username.');
+    if(users.indexOf(data) > -1 || data == ''){
+      socket.emit('userExists', 'Take another username!');
     }
     else{
       socket.nickname = data
