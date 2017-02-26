@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html>
-    <head><title>Hello world</title>
+  <head><title>Hello world</title>
       <link rel="stylesheet" href="app.css">
   </head>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-      var socket = io();
+        var socket = io();
         function setUsername(){
             socket.emit('setUsername', document.getElementById('name').value);
         };
         var user;
         var users = []
+
         socket.on('userExists', function(data){
             document.getElementById('error-container').innerHTML = data;
         });
+
         socket.on('welcome', function(data){
           document.getElementById('users-list').innerHTML += '<li><b>' + data + '</b></li>'
         });
+
         socket.on('userSet', function(data){
             user = data.username;
             document.body.innerHTML = '<h5 id="user-name"></h5>\
@@ -34,26 +37,28 @@
 
         socket.on('usersList', function(data){
           document.getElementById('users-list').innerHTML = ''
-            data.users.map(function(usr) {
+          data.users.map(function(usr) {
             document.getElementById('users-list').innerHTML += '<li><b>' + usr + '</b></li>'
           })
         })
 
         function sendMessage(){
-            var msg = document.getElementById('message').value;
-            if(msg){
-                socket.emit('msg', {message: msg, user: user});
-                document.getElementById('message').value = ''
-            }
+          var msg = document.getElementById('message').value;
+          if (msg) {
+            socket.emit('msg', {message: msg, user: user});
+            document.getElementById('message').value = ''
+          }
         }
+
         socket.on('newmsg', function(data){
-            if(user){
-              var d = new Date();
-                document.getElementById('message-container').innerHTML += '<div><b>' + data.user +  '<a>(' + d.toLocaleTimeString() + ')</a></b>: ' + data.message + '</div>'
-                var objDiv = document.getElementById("message-container");
-                objDiv.scrollTop = objDiv.scrollHeight;
-            }
+          if(user){
+            var d = new Date();
+            document.getElementById('message-container').innerHTML += '<div><b>' + data.user +  '<a>(' + d.toLocaleTimeString() + ')</a></b>: ' + data.message + '</div>'
+            var objDiv = document.getElementById("message-container");
+            objDiv.scrollTop = objDiv.scrollHeight;
+          }
         })
+
     </script>
     <body>
         <h4>Write your name to enter chat</h4>
